@@ -130,7 +130,7 @@ class UserController: RouteCollection {
     func selectEvent(_ req: Request) throws -> Future<Response> {
         _ = try req.requireAuthenticated(User.self)
         return try req.parameters.next(Event.self).flatMap { event in
-            event.isSelectedEvent.toggle()
+            event.isSelectedEvent = !event.isSelectedEvent
             return event.save(on: req).map { _ in
                 req.redirect(to: "/home")
             }
