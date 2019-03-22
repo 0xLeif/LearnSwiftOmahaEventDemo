@@ -1,6 +1,6 @@
 #set("content") {
 
-<h1>Home</h1>
+<h1>#(title)</h1>
 
 <a href="https://www.meetup.com/LearnSwiftOmaha/">Learn Swift Omaha</a>
 
