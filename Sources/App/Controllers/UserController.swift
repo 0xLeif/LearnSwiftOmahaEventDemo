@@ -113,7 +113,7 @@ class UserController: RouteCollection {
     func newEvent(_ req: Request) throws -> Future<Response> {
         return try req.content.decode(Event.self).flatMap { event in
             return event.save(on: req).map { _ in
-                req.redirect(to: "/home")
+                req.redirect(to: "/")
             }
         }
     }
@@ -122,7 +122,7 @@ class UserController: RouteCollection {
         _ = try req.requireAuthenticated(User.self)
         return try req.content.decode(Event.self).flatMap { updatedEvent in
             return updatedEvent.save(on: req).map { _ in
-                req.redirect(to: "/home")
+                req.redirect(to: "/")
             }
         }
     }
@@ -132,7 +132,7 @@ class UserController: RouteCollection {
         return try req.parameters.next(Event.self).flatMap { event in
             event.isSelectedEvent = !event.isSelectedEvent
             return event.save(on: req).map { _ in
-                req.redirect(to: "/home")
+                req.redirect(to: "/")
             }
         }
     }
@@ -141,7 +141,7 @@ class UserController: RouteCollection {
         _ = try req.requireAuthenticated(User.self)
         return try req.content.decode(Event.self).flatMap { updatedEvent in
             return updatedEvent.delete(on: req).map { _ in
-                req.redirect(to: "/home")
+                req.redirect(to: "/")
             }
         }
     }
