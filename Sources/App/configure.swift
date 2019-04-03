@@ -8,6 +8,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     // Register providers first
     try services.register(FluentSQLiteProvider())
     try services.register(LeafProvider())
+    try services.register(AuthenticationProvider())
     
     // Register routes to the router
     let router = EngineRouter.default()
@@ -15,7 +16,6 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     services.register(router, as: Router.self)
 
     // Register middleware
-    try services.register(AuthenticationProvider())
     var middlewares = MiddlewareConfig() // Create _empty_ middleware config
     middlewares.use(FileMiddleware.self) // Serves files from `Public/` directory
     middlewares.use(SessionsMiddleware.self)

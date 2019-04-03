@@ -1,165 +1,193 @@
 #set("content") {
 
-<h1>Home</h1>
+<h1>#(title)</h1>
 
-<a href="https://www.meetup.com/LearnSwiftOmaha/">Learn Swift Omaha</a>
+<h2><a href="https://www.meetup.com/LearnSwiftOmaha/">Learn Swift Omaha</a></h2>
 
-<h3>Next Events</h3>
+<h3 class="eventsHeader">Next Events</h3>
+
+#if(count(nextEvents) == 0) {
+
+<h3 class="eventsHeader">😁 Looking for a talk!</h3>
+
+}
 
 #for(event in nextEvents) {
 
 #set("eventCard") {
+
 <div class="eventBackground">
-<form method="post" action="/updateEvent">
-	<div class="eventCard">
-		<div class="eventTitle">
-        #// Title
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" name="title" class="form-control"
-                id="title" value=#(event.title) #if(user.id != event.user) {disabled}>
-                </div>
-        #// Description
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea type="text" name="description" class="form-control"
-                id="description" #if(user.id != event.user) {disabled}>#(event.description)</textarea>
-        </div>
-    </div>
-    <div class="eventDetail">
-        #// Talk Type
-        <div class="form-group">
-            <label for="type">Talk Type</label>
-            <select name="type" #if(user.id != event.user) {disabled}>
-                <option value="0" #if(event.type == 0){selected}>Talk</option>
-                <option value="1" #if(event.type == 1){selected}>Demo</option>
-            </select>
-        </div>
-        #// Talk Level
-        <div class="form-group">
-            <label for="level">Talk Level</label>
-            <select name="level" #if(user.id != event.user) {disabled}>
-                <option value="0" #if(event.level == 0){selected}>Beginner</option>
-                <option value="1" #if(event.level == 1){selected}>Advanced</option>
-            </select>
-        </div>
-        #// Speaker
-        <div class="form-group">
-            <label for="level">Speaker</label>
-            <input type="text" class="form-control" value="#(event.authorName)" disabled>
-                </div>
-        
-    </div>
-    #// IDs
-    <div class="form-group" hidden>
-        <input type="number" name="user" class="form-control"
-        id="user" value="#(user.id)" step="1">
-        <input type="number" name="id" class="form-control"
-        id="id" value="#(event.id)" step="1">
-		<input type="text" name="authorName" class="form-control"
-		id="authorName" value="#(event.authorName)" step="1">
-		<input type="text" name="isSelectedEvent" value="#(event.isSelectedEvent)">
-    </div>
-    
-    	</div>
-		<div class="updateButtons">
-		#if(user.id == event.user) {
-		<button type="submit" class="btn btn-success">
-		    Update Event
-		</button>
-		<button type="submit" class="btn btn-danger" formaction="/deleteEvent" formmethod="post">
-		    Delete Event
-		</button>
-		
-		}
-		<button formaction="/selectEvent/#(event.id)/" formmethod="post" type="submit" name="isSelectedEvent" value="#(!event.isSelectedEvent)" class="btn #if(!event.isSelectedEvent){btn-primary}else{btn-warning}">
-			#if(event.isSelectedEvent){Unselect Event}else{Select Event}
-		</button>
+	<form method="post" action="/updateEvent">
+		<div class="eventCard">
+			<div class="eventTitle">
+		        #// Title
+				<div class="form-group">
+					<label for="title">Title</label>
+					
+					<input type="text" name="title" class="form-control"
+	                id="title" value=#(event.title) #if(user.id != event.user) {disabled}>
+				</div>
+		        #// Description
+				
+				<div class="form-group">
+					<label for="description">Description</label>
+					
+					<textarea type="text" name="description" class="form-control"
+	                id="description" #if(user.id != event.user) {disabled}>#(event.description)</textarea>
+				</div>
+			</div>
+			
+			<div class="eventDetail">
+		        #// Talk Type
+				<div class="form-group">
+					<label for="type">Talk Type</label>
+					
+					<select name="type" #if(user.id != event.user) {disabled}>
+						<option value="0" #if(event.type == 0){selected}>Talk</option>
+						
+						<option value="1" #if(event.type == 1){selected}>Demo</option>
+					</select>
+				</div>
+		        #// Talk Level
+				
+				<div class="form-group">
+					<label for="level">Talk Level</label>
+					
+					<select name="level" #if(user.id != event.user) {disabled}>
+						<option value="0" #if(event.level == 0){selected}>Beginner</option>
+						
+						<option value="1" #if(event.level == 1){selected}>Advanced</option>
+					</select>
+				</div>
+		        #// Speaker
+				
+				<div class="form-group">
+					<label for="level">Speaker</label>
+					
+					<input type="text" class="form-control" value="#(event.authorName)" disabled>
+				</div>
+			</div>
+		    #// IDs
+			
+			<div class="form-group" hidden>
+				<input type="number" name="user" class="form-control"
+		        id="user" value="#(user.id)" step="1">
+				
+				<input type="number" name="id" class="form-control"
+		        id="id" value="#(event.id)" step="1">
+				
+				<input type="text" name="authorName" class="form-control"
+				id="authorName" value="#(event.authorName)" step="1">
+				
+				<input type="text" name="isSelectedEvent" value="#(event.isSelectedEvent)">
+			</div>
+			
+			<div class="updateButtons">#if(user.id == event.user) {
+				<button type="submit" class="btn btn-success">Update Event</button>
+				
+				<button type="submit" class="btn btn-danger" formaction="/deleteEvent" formmethod="post">Delete Event</button>
+			    
+			    }
+				
+				<button formaction="/selectEvent/#(event.id)/" formmethod="post" type="submit" name="isSelectedEvent" value="#(!event.isSelectedEvent)" class="btn #if(!event.isSelectedEvent){btn-primary}else{btn-warning}">#if(event.isSelectedEvent){Unselect Event}else{Select Event}</button>
+			</div>
 		</div>
-		
-        
-</form>
+	</form>
 </div>
 }
 #get(eventCard)
 }
 
-<h3>Your Events</h3>
+<h3 class="eventsHeader">Your Events</h3>
+#if(count(userEvents) == 0) {
 
+<h3 class="eventsHeader"></h3>
+
+<center><a class="btn btn-success" href="/newEvent" class="nav-link">Add Event</a></center>
+
+}
 
 #for(event in userEvents) {
 
 #set("eventCard") {
+
 <div class="eventBackground">
-<form method="post" action="/updateEvent">
-	<div class="eventCard">
-		<div class="eventTitle">
-        #// Title
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" name="title" class="form-control"
-                id="title" value=#(event.title) #if(user.id != event.user) {disabled}>
-        </div>
-        #// Description
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea type="text" name="description" class="form-control"
-                id="description" #if(user.id != event.user) {disabled}>#(event.description)</textarea>
-        </div>
-    </div>
-    <div class="eventDetail">
-        #// Talk Type
-        <div class="form-group">
-            <label for="type">Talk Type</label>
-            <select name="type" #if(user.id != event.user) {disabled}>
-                <option value="0" #if(event.type == 0){selected}>Talk</option>
-                <option value="1" #if(event.type == 1){selected}>Demo</option>
-            </select>
-        </div>
-        #// Talk Level
-        <div class="form-group">
-            <label for="level">Talk Level</label>
-            <select name="level" #if(user.id != event.user) {disabled}>
-                <option value="0" #if(event.level == 0){selected}>Beginner</option>
-                <option value="1" #if(event.level == 1){selected}>Advanced</option>
-            </select>
-        </div>
-        #// Speaker
-        <div class="form-group">
-            <label for="level">Speaker</label>
-            <input type="text" class="form-control" value="#(event.authorName)" disabled>
-                </div>
-        
-    </div>
-    #// IDs
-    <div class="form-group" hidden>
-        <input type="number" name="user" class="form-control"
-        id="user" value="#(user.id)" step="1">
-        <input type="number" name="id" class="form-control"
-        id="id" value="#(event.id)" step="1">
-		<input type="text" name="authorName" class="form-control"
-		id="authorName" value="#(event.authorName)" step="1">
-		<input type="text" name="isSelectedEvent" value="#(event.isSelectedEvent)">
-    </div>
-    
-    	</div>
-		<div class="updateButtons">
-		#if(user.id == event.user) {
-		<button type="submit" class="btn btn-success">
-		    Update Event
-		</button>
-		<button type="submit" class="btn btn-danger" formaction="/deleteEvent" formmethod="post">
-		    Delete Event
-		</button>
-		
-		}
-		<button formaction="/selectEvent/#(event.id)/" formmethod="post" type="submit" name="isSelectedEvent" value="#(!event.isSelectedEvent)" class="btn #if(!event.isSelectedEvent){btn-primary}else{btn-warning}">
-			#if(event.isSelectedEvent){Unselect Event}else{Select Event}
-		</button>
+	<form method="post" action="/updateEvent">
+		<div class="eventCard">
+			<div class="eventTitle">
+		        #// Title
+				<div class="form-group">
+					<label for="title">Title</label>
+					
+					<input type="text" name="title" class="form-control"
+	                id="title" value=#(event.title) #if(user.id != event.user) {disabled}>
+				</div>
+		        #// Description
+				
+				<div class="form-group">
+					<label for="description">Description</label>
+					
+					<textarea type="text" name="description" class="form-control"
+	                id="description" #if(user.id != event.user) {disabled}>#(event.description)</textarea>
+				</div>
+			</div>
+			
+			<div class="eventDetail">
+		        #// Talk Type
+				<div class="form-group">
+					<label for="type">Talk Type</label>
+					
+					<select name="type" #if(user.id != event.user) {disabled}>
+						<option value="0" #if(event.type == 0){selected}>Talk</option>
+						
+						<option value="1" #if(event.type == 1){selected}>Demo</option>
+					</select>
+				</div>
+		        #// Talk Level
+				
+				<div class="form-group">
+					<label for="level">Talk Level</label>
+					
+					<select name="level" #if(user.id != event.user) {disabled}>
+						<option value="0" #if(event.level == 0){selected}>Beginner</option>
+						
+						<option value="1" #if(event.level == 1){selected}>Advanced</option>
+					</select>
+				</div>
+		        #// Speaker
+				
+				<div class="form-group">
+					<label for="level">Speaker</label>
+					
+					<input type="text" class="form-control" value="#(event.authorName)" disabled>
+				</div>
+			</div>
+		    #// IDs
+			
+			<div class="form-group" hidden>
+				<input type="number" name="user" class="form-control"
+		        id="user" value="#(user.id)" step="1">
+				
+				<input type="number" name="id" class="form-control"
+		        id="id" value="#(event.id)" step="1">
+				
+				<input type="text" name="authorName" class="form-control"
+				id="authorName" value="#(event.authorName)" step="1">
+				
+				<input type="text" name="isSelectedEvent" value="#(event.isSelectedEvent)">
+			</div>
+			
+			<div class="updateButtons">#if(user.id == event.user) {
+				<button type="submit" class="btn btn-success">Update Event</button>
+				
+				<button type="submit" class="btn btn-danger" formaction="/deleteEvent" formmethod="post">Delete Event</button>
+				
+				}
+				
+				<button formaction="/selectEvent/#(event.id)/" formmethod="post" type="submit" name="isSelectedEvent" value="#(!event.isSelectedEvent)" class="btn #if(!event.isSelectedEvent){btn-primary}else{btn-warning}">#if(event.isSelectedEvent){Unselect Event}else{Select Event}</button>
+			</div>
 		</div>
-		
-        
-</form>
+	</form>
 </div>
 }
 #get(eventCard)

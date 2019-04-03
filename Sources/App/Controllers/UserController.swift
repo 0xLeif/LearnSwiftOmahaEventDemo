@@ -183,6 +183,7 @@ struct EventContext: Encodable {
 }
 
 struct HomeContext: Encodable {
+    let title: String = "Home"
     let user: User
     let nextEvents: [Event]
     let userEvents: [Event]
